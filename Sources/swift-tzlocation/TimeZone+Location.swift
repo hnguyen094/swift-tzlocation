@@ -13,6 +13,7 @@ public extension TimeZone {
         let url = URL(filePath: "/usr/share/zoneinfo/zone.tab")
         let zonetabContents = try String(contentsOf: url, encoding: .utf8)
             .components(separatedBy: .newlines)
+            .filter { $0.first != "#" }
         let searchResult = zonetabContents.first { $0.contains(self.identifier) }
         guard case .some(let found) = searchResult else { return .none } // old identifier
         let components = found.split(separator: "\t")
